@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  dynamodb:
+    container_name: jsonbin-clone-dynamodb
+    image: amazon/dynamodb-local
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data/
+    volumes:
+     - /Users/musatai/KubernetesStorage/Ecosystem/JsonbinClone:/home/dynamodblocal/data
+    ports:
+     - 8000:8000
+    networks:
+      - jsonbin-clone-backend
+
+  jsonbin-clone:
+    container_name: jsonbin-clone
+    image: ecosystem/jsonbin-clone
+    build: .
+    ports:
+      - 8080:8080
+    networks:
+      - jsonbin-clone-backend
+
+volumes: 
+  dynamodb_data:
+
+networks:
+  jsonbin-clone-backend:
+    name: jsonbin-clone-backend
