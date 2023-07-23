@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag jsonbin-clone:latest 383392441586.dkr.ecr.sa-east-1.amazonaws.com/jsonbin-clone:latest
+    - name: Configure AWS Credentials For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::383392441586:role/GithubActionsECRPushRole
+        aws-region: sa-east-1
+    - name: Pish to ECR
+      run: docker push 383392441586.dkr.ecr.sa-east-1.amazonaws.com/jsonbin-clone:latest
