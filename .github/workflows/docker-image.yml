@@ -16,7 +16,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag jsonbin-clone:latest 383392441586.dkr.ecr.sa-east-1.amazonaws.com/jsonbin-clone:latest
+      run: docker build . -t 383392441586.dkr.ecr.sa-east-1.amazonaws.com/jsonbin-clone:latest
     - name: Configure AWS Credentials For GitHub Actions
       uses: aws-actions/configure-aws-credentials@v2
       with:
